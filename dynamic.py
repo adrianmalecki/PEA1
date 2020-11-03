@@ -70,41 +70,31 @@ class Branch_And_Bound:
 
 
     def find_solution(self, start_graph):
+        size = len(start_graph)
         queue = PriorityQueue()
         choosen_node = 0
         current_graph, bound = self.reduce_rows_and_columns(start_graph, 0)
-      #  queue.put((bound, current_graph))
-        nodes = [1, 2, 3, 4]
-        for node in nodes:
-            visited_nodes = [0]
-            visited_nodes.append(node)
-            cost = bound
-            temp_graph = current_graph[:]
-            print(visited_nodes)
-            temp_graph = self.prepare_graph(temp_graph, choosen_node, node, visited_nodes)
-            temp_graph, cost = self.reduce_rows_and_columns(temp_graph, cost)
-            cost += current_graph[choosen_node][node]
-            print(temp_graph)
-            print(cost)
+        main_path = [0]
+        queue.put((bound, choosen_node, current_graph, main_path))
+        while not queue.empty():
+            bound, choosen_node, current_graph, main_path = queue.get()
+            nodes = [i for i in range(size) if i not in main_path]
+            for node in nodes:
+                cost = bound
+                current_path = main_path[:]
+                current_path.append(node)
+                temp_graph = current_graph[:]
+                temp_graph = self.prepare_graph(temp_graph, choosen_node, node, current_path)
+                temp_graph, cost = self.reduce_rows_and_columns(temp_graph, cost)
+                cost += current_graph[choosen_node][node]
+                queue.put((cost, node, temp_graph, current_path))
+                print(cost)
 
-            queue.put((cost, node, temp_graph, visited_nodes))
 
-        bound, choosen_node, current_graph, visited = queue.get()
-        print(visited)
-        visited2 = visited[:]
-        nodes = [1, 2, 4]
-        for node in nodes:
-            cost = bound
-            visited2 = visited[:]
-            visited2.append(node)
-            print(visited2)
-            temp_graph = current_graph[:]
-            temp_graph = self.prepare_graph(temp_graph, choosen_node, node, visited2)
-            temp_graph, cost = self.reduce_rows_and_columns(temp_graph, cost)
-            cost += current_graph[choosen_node][node]
-            print(temp_graph)
-            print(cost)
-            queue.put((cost, node, temp_graph, visited2))
+
+
+
+
 
 
 graph2 = [[-1, 20, 30, 10, 11],
