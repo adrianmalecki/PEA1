@@ -3,8 +3,6 @@ from itertools import permutations
 from sys import maxsize
 from queue import *
 
-from numpy.ma import copy
-
 
 class Branch_And_Bound:
 
@@ -58,7 +56,7 @@ class Branch_And_Bound:
         for r in range(size):
             temp = []
             for c in range(size):
-                if r == row or c == column: # or (c == row and r == column):
+                if r == row or c == column:
                     temp.append(-1)
                 elif c in visited[:-1] and r in visited[-1:]:
                     temp.append(-1)
@@ -67,41 +65,26 @@ class Branch_And_Bound:
             output_graph.append(temp)
         return output_graph
 
-
-
-    def find_solution(self, start_graph):
+    def find_solution(self, start_graph, starting_city):
         size = len(start_graph)
         queue = PriorityQueue()
-        choosen_node = 0
+        chosen_node = starting_city
         current_graph, bound = self.reduce_rows_and_columns(start_graph, 0)
-        main_path = [0]
-        queue.put((bound, choosen_node, current_graph, main_path))
+        main_path = [chosen_node]
+        queue.put((bound, chosen_node, current_graph, main_path))
         while not queue.empty():
-            bound, choosen_node, current_graph, main_path = queue.get()
+            bound, chosen_node, current_graph, main_path = queue.get()
+            if len(main_path) == size and bound >= cost:
+                main_path.append(starting_city)
+                return cost, main_path
+
             nodes = [i for i in range(size) if i not in main_path]
             for node in nodes:
                 cost = bound
                 current_path = main_path[:]
                 current_path.append(node)
                 temp_graph = current_graph[:]
-                temp_graph = self.prepare_graph(temp_graph, choosen_node, node, current_path)
+                temp_graph = self.prepare_graph(temp_graph, chosen_node, node, current_path)
                 temp_graph, cost = self.reduce_rows_and_columns(temp_graph, cost)
-                cost += current_graph[choosen_node][node]
+                cost += current_graph[chosen_node][node]
                 queue.put((cost, node, temp_graph, current_path))
-                print(cost)
-
-
-
-
-
-
-
-
-graph2 = [[-1, 20, 30, 10, 11],
-          [15, -1, 16, 4, 2],
-          [3, 5, -1, 2, 4],
-          [19, 6, 18, -1, 3],
-          [16, 4, 7, 16, -1]]
-
-bab = Branch_And_Bound()
-bab.find_solution(graph2)

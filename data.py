@@ -31,7 +31,6 @@ class ReadData:
         while lines:
 
             size = int(lines[number_of_line][:-1])
-            print(size)
             number_of_line += 1
             graph = []
             for i in range(number_of_line, size + number_of_line):
@@ -49,7 +48,6 @@ class ReadData:
                         number += item
 
             number_of_line += size
-            print(len(lines))
             if number_of_line >= len(lines):
                 rows.append(int(number))
                 graph.append(rows)
@@ -70,7 +68,6 @@ class ReadData:
         if choice == 2:
             amount = int(input('Liczba grafów do wygenerowania: '))
             size = int(input('Rozmiar generowanych grafów: '))
-
             return self.generate_random_data(amount, size)
 
 
