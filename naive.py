@@ -1,20 +1,17 @@
-import datetime
 from itertools import permutations
 from sys import maxsize
 
-
+# klasa służąca do znajdowania rozwiązania metodą przeglądu zupełnego
 class Naive:
 
-    def __init__(self):
-        pass
-
+    # # funkcja służąca do znajdowania rozwiązania
     def naive_algorithm(self, start_graph, starting_city):
+        # wyznaczenie kolejnych możliwych ścieżek
         perm = permutations([i + 1 for i in range(len(start_graph) - 1)])
 
         cost = maxsize
-        iteration = 0
+        # obliczenie kosztu dla każdej możliwej ścieżki - permutacji
         for permutation in perm:
-            iteration += 1
             path = [starting_city]
             current_pathweight = 0
             k = starting_city
@@ -26,11 +23,10 @@ class Naive:
             current_pathweight += start_graph[k][starting_city]
             path.append(starting_city)
 
+            # sprawdzenie czy znależiona ścieżka jest najkrótsza
             if current_pathweight < cost:
                 cost = current_pathweight
                 min_path = path
         return cost, min_path
-
-
 
 

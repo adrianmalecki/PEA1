@@ -2,9 +2,8 @@ import random
 
 
 class ReadData:
-    def __init__(self):
-        pass
 
+    # funkcja generująca losowe dane w liczbie - amount i o rozmiarze - size
     def generate_random_data(self, amount, size):
         list_of_graphs = []
         for i in range(amount):
@@ -15,21 +14,25 @@ class ReadData:
                     if row == column:
                         rows.append(-1)
                     else:
-                        rand = random.randint(1, 100)
+                        rand = random.randint(1, 300)
                         rows.append(rand)
                 graph.append(rows)
             list_of_graphs.append(graph)
         return list_of_graphs
 
-    def read_data_from_file(self):
-        # filepath = input('Podaj ścieżke pliku: ')
-        filepath = 'my_data.txt'
+    # funkcja zczytująca dane z pliku i umieszczająca je w liście - macierzy sąsiedztwa
+    def read_data_from_file(self, filepath):
+
+
         f = open(filepath, 'r')
+
+
         list_of_graphs = []
         lines = f.readlines()
         number_of_line = 0
-        while lines:
 
+        # zczytywanie kolejnych linii pliku
+        while lines:
             size = int(lines[number_of_line][:-1])
             number_of_line += 1
             graph = []
@@ -57,18 +60,22 @@ class ReadData:
 
         return list_of_graphs
 
+    # funkcja zwracająca wybrany typ danych
     def get_data(self):
 
         print('1. Załaduj dane z pliku: ')
         print('2. Wygeneruj dane: ')
-        choice = int(input('Wybór: '))
+        choice = input('Wybór: ')
 
-        if choice == 1:
-            return self.read_data_from_file()
-        if choice == 2:
+        if choice == '1':
+            filepath = input('Podaj ścieżke pliku: ')
+            # filepath = 'my_data.txt'
+            if filepath[-4:] == '.txt':
+                return self.read_data_from_file(filepath)
+            else:
+                print('Nie poprawna ścieżka')
+
+        if choice == '2':
             amount = int(input('Liczba grafów do wygenerowania: '))
             size = int(input('Rozmiar generowanych grafów: '))
             return self.generate_random_data(amount, size)
-
-
-

@@ -29,19 +29,21 @@ class Menu:
             print('3. Brute force')
             print('4. Branch and bound')
             print('5. Testy')
-            self.choice = int(input('Wybór: '))
+            print('6. Wyjście')
 
-            if self.choice == 1:
+            self.choice = input('Wybór: ')
+
+            if self.choice == '1':
                 self.data = self.read_data.get_data()
 
-            if self.choice == 2:
+            elif self.choice == '2':
                 print('Dane: ')
                 for graph in self.data:
                     print('')
                     for row in graph:
                         print(row)
 
-            if self.choice == 3:
+            elif self.choice == '3':
                 for graph in self.data:
                     start = datetime.datetime.now()
                     solution, path = self.naive.naive_algorithm(graph, self.starting_city)
@@ -50,7 +52,7 @@ class Menu:
                     print('Solution = ', solution)
                     print('Path = ', path)
 
-            if self.choice == 4:
+            elif self.choice == '4':
                 for graph in self.data:
                     start = datetime.datetime.now()
                     solution, path = self.branch_and_bound.find_solution(graph, self.starting_city)
@@ -59,9 +61,20 @@ class Menu:
                     print('Solution = ', solution)
                     print('Path = ', path)
 
-            if self.choice == 5:
-                print('Rozpoczynam testy: ')
-                self.tests.testing()
+            elif self.choice == '5':
+                print('1. Brute force: ')
+                print('2. Branch and bound: ')
+                choice = int(input('Wybór: '))
+                if choice == 1:
+                    self.tests.testing_naive()
+                if choice == 2:
+                    self.tests.testing_b_b()
+
+            elif self.choice == '6':
+                exit()
+
+            else:
+                print("Wprowadz poprawną liczbę")
 
 M = Menu()
 M.main_menu()
