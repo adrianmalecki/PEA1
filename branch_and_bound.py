@@ -81,7 +81,7 @@ class Branch_And_Bound:
                 main_path.append(starting_city)
                 return cost, main_path # zwrócenie rozwiązania
 
-            nodes = [i for i in range(size) if i not in main_path]  # wyznaczenie 'dzieci' wierzchołka z najmniejszym ograniczeniem
+            nodes = [i for i in range(size) if i not in main_path]  # wyznaczenie 'liści' wierzchołka z najmniejszym ograniczeniem
             for node in nodes:
                 cost = bound
                 current_path = main_path[:]

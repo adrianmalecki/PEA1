@@ -20,12 +20,14 @@ class ReadData:
             list_of_graphs.append(graph)
         return list_of_graphs
 
-    # funkcja zczytująca dane z pliku i umieszczająca je w liście - macierzy sąsiedztwa
+    # funkcja sczytująca dane z pliku i umieszczająca je w liście - macierzy sąsiedztwa
     def read_data_from_file(self, filepath):
 
-
-        f = open(filepath, 'r')
-
+        try:
+            f = open(filepath, 'r')
+        except IOError:
+            print('Plik nie istnieje lub nie można go otworzyć, załaduj inne dane')
+            self.get_data()
 
         list_of_graphs = []
         lines = f.readlines()
@@ -65,6 +67,7 @@ class ReadData:
 
         print('1. Załaduj dane z pliku: ')
         print('2. Wygeneruj dane: ')
+        print('3. Powrót: ')
         choice = input('Wybór: ')
 
         if choice == '1':
@@ -79,3 +82,9 @@ class ReadData:
             amount = int(input('Liczba grafów do wygenerowania: '))
             size = int(input('Rozmiar generowanych grafów: '))
             return self.generate_random_data(amount, size)
+
+        if choice == '3':
+            return
+
+        else:
+            self.get_data()

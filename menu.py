@@ -1,15 +1,9 @@
-import random
-from itertools import permutations
-from sys import maxsize
 import datetime
 from naive import Naive
 from branch_and_bound import Branch_And_Bound
 from data import ReadData
 from tests import Tests
 
-
-
-filepath = "my_data.txt"
 
 class Menu:
     def __init__(self):
@@ -37,11 +31,14 @@ class Menu:
                 self.data = self.read_data.get_data()
 
             elif self.choice == '2':
-                print('Dane: ')
-                for graph in self.data:
-                    print('')
-                    for row in graph:
-                        print(row)
+                if self.data == [] or self.data == None:
+                    print('Brak danych do wyświetlenie.')
+                else:
+                    print('Dane: ')
+                    for graph in self.data:
+                        print('')
+                        for row in graph:
+                            print(row)
 
             elif self.choice == '3':
                 for graph in self.data:
@@ -75,6 +72,7 @@ class Menu:
 
             else:
                 print("Wprowadz poprawną liczbę")
+
 
 M = Menu()
 M.main_menu()

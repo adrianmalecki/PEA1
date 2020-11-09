@@ -14,7 +14,7 @@ class Tests:
     # testy dla przeglądu zupełnego
     def testing_naive(self):
         for size in range(5, 12):
-            graphs = self.data.generate_random_data(150, size)
+            graphs = self.data.generate_random_data(150, size) # generowanie losowych grafów
             help_time = 0
             total_time = 0
             for j in range(50):
