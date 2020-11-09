@@ -22,7 +22,7 @@ class Tests:
                 self.naive.naive_algorithm(graphs[j], 0)
                 exec_time = time.time() - exec_time
                 help_time += exec_time
-                if help_time >= 300.0:
+                if help_time >= 150.0:
                     break
             for i in range(50, 150):
                 exec_time = time.time()
@@ -48,7 +48,7 @@ class Tests:
                 self.branch_and_bound.find_solution(graphs[j], 0)
                 exec_time = time.time() - exec_time
                 help_time += exec_time
-                if help_time >= 300.0:
+                if help_time >= 150.0:
                     break
             for i in range(50, 150):
                 exec_time = time.time()

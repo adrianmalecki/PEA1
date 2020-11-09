@@ -1,4 +1,5 @@
 import random
+import re
 
 
 class ReadData:
@@ -20,9 +21,9 @@ class ReadData:
             list_of_graphs.append(graph)
         return list_of_graphs
 
+
     # funkcja sczytująca dane z pliku i umieszczająca je w liście - macierzy sąsiedztwa
     def read_data_from_file(self, filepath):
-
         try:
             f = open(filepath, 'r')
         except IOError:
@@ -32,7 +33,6 @@ class ReadData:
         list_of_graphs = []
         lines = f.readlines()
         number_of_line = 0
-
         # zczytywanie kolejnych linii pliku
         while lines:
             size = int(lines[number_of_line][:-1])
@@ -43,15 +43,17 @@ class ReadData:
                 number = ''
                 for item in lines[i]:
                     if item == ' ':
-                        rows.append(int(number))
-                        number = ''
+                        if number == '':
+                            pass
+                        else:
+                            rows.append(int(number))
+                            number = ''
                     elif item == '\n':
                         rows.append(int(number))
                         graph.append(rows)
                         number = ''
                     else:
                         number += item
-
             number_of_line += size
             if number_of_line >= len(lines):
                 rows.append(int(number))
@@ -61,6 +63,15 @@ class ReadData:
             list_of_graphs.append(graph)
 
         return list_of_graphs
+
+    # funkcja zamieniająca 0 na -1
+    def fix_matrix(self, matrix):
+        size = len(matrix)
+        for r in range(0, size):
+            for c in range(0, size):
+                if r == c:
+                    matrix[r][c] = -1
+        return matrix
 
     # funkcja zwracająca wybrany typ danych
     def get_data(self):
@@ -74,7 +85,10 @@ class ReadData:
             filepath = input('Podaj ścieżke pliku: ')
             # filepath = 'my_data.txt'
             if filepath[-4:] == '.txt':
-                return self.read_data_from_file(filepath)
+                list_of_graphs = []
+                for graph in self.read_data_from_file(filepath):
+                    list_of_graphs.append(self.fix_matrix(graph))
+                return list_of_graphs
             else:
                 print('Nie poprawna ścieżka')
 
